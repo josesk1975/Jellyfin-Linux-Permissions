@@ -250,6 +250,7 @@ sudo nano /etc/fstab
 ```
 add to the end of the file
 ```
+#boss added : mount "window M:/media" to "linux /jellyfin-media/m" with jellyfin permissions as per chown/chmod in notes
 /hdd/m/media    /jellyfin-media/m    none    bind
 ```
 This is my /etc/fstab

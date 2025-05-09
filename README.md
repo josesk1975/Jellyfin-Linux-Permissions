@@ -145,7 +145,7 @@ cd /
 sudo mkdir /hdd
 sudo mkdir /hdd/m
 ```
-Change the permissions to only allow "boss" to have ownership of /hdd and /hdd/m. Otherwise all users will have read write access to /hdd and /hdd/m.
+Change the permissions to only allow "boss" to have ownership of /hdd and /hdd/m. Otherwise all users will have read write access to /hdd and /hdd/m and thus full access to the mapped hard drive.
 ```
 sudo chown boss:boss /hdd
 sudo chown boss:boss /hdd/m

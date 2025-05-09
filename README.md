@@ -50,34 +50,7 @@ You should now be able to log into your jellyfin server http://127.0.0.1:8096 an
 
 As user 'boss' you can add media to /jellyfin-media/local/video and /jellyfin-media/local/music.
 
-**If you cannot see your media in the jellyfin library or the media will not play, you need to check the file permissions of the directories and media files.**
-
-For example:-
-```
-boss@boss-Lenovo-B570e-2:/jellyfin-media/local/video/testvideo$ ls -al
-total 9136
-drwxrwxr-x 2 boss boss        4096 May  9 11:11  .
-drwxr-x--- 3 boss jellyfin    4096 May  9 10:57  ..
--rw------- 1 boss boss       37929 May  7 20:08  record-open-C.mp4
--rw-r--r-- 1 boss boss     9303046 May  9 11:11 'THX Trailer.mp4'
-```
-Here you will find that the "THX Trailer.mp4" will play on jellyfin, but the "record-open-C.mp4" will not play and comes up with an error as the permissions only allow 'boss' to read the file and not userID=jellyfin.
-
-You would need to change the permissions to:
-```
-chmod +r ./record-open-C.mp4
-```
-This allows any use to read the file.
-```
-boss@boss-Lenovo-B570e-2:/jellyfin-media/local/video/testvideo$ ls -al
-total 9136
-drwxrwxr-x 2 boss boss        4096 May  9 11:11  .
-drwxr-x--- 3 boss jellyfin    4096 May  9 10:57  ..
--rw-r--r-- 1 boss boss       37929 May  7 20:08  record-open-C.mp4
--rw-r--r-- 1 boss boss     9303046 May  9 11:11 'THX Deep Note Trailer 2019 4K  Genesis720p.mp4'
-```
-"record-open-C.mp4" will now play on jellyfin.
-
+**If you cannot see your media in the jellyfin library or the media will not play, you need to check the file permissions of the directories and media files. [Example of file permission issues](#example-of-file-permission-issues)**
 
 ## Media on Mounted Drives and Partition's
 
@@ -253,7 +226,7 @@ sudo umount /jellyfin-media/m
 
 When you are happy, you can make the change permanent e.g. after reboot by:
 
-**Updating fstab**
+### Updating fstab
 ```
 sudo nano /etc/fstab
 ```
@@ -293,6 +266,7 @@ and use /jellyfin-media/m as the library directory
 >[!NOTE]  
 >You should not need to do this on a Windows NTFS drive as it will have been mounted with full rwxrwxrwx so once jellyfin is past /jellyfin-media/m/ it should have full access to the directory that has been mounted using -bind.
 
+# Example of file permission issues
 
 An example of an issue with the file permissions:-
 ```
@@ -328,7 +302,7 @@ drwxr-x--- 3 boss jellyfin    4096 May  9 10:57  ..
 
 
 
-###Useful Links
+## Useful Links
 
 [https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer](https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer)
 

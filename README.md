@@ -203,10 +203,10 @@ sudo umount /hdd/m
 
 ## Creating a Mount Point for Jellyfin
 
-We are now going to create a mount just for jellyfin and give access to just the 'media' directory on the Windows HDD.
+We are now going to create a mount just for jellyfin and give access to just the 'media' directory on the /hdd/m/ mounted drive.
 
 > [!NOTE]
-> Setting boss as the owner allows you to easily change directory etc. rather that having to add sudo to do an ls -al
+> Setting boss as the owner allows you to easily change directory etc. rather that having to add sudo to do a ls -al
 > You could do root:jellyfin or jellyfin:jellyfin instead of boss:jellyfin but you would have to do sudo every time you want to look at the directories with ls.
 
 If you have not made it already for local media files:-
@@ -272,7 +272,7 @@ This is my /etc/fstab
 UUID=5396630c-6144-4cfd-a7af-2af44496efa8 /               ext4    errors=remount-ro 0       1
 # /boot/efi was on /dev/sda1 during installation
 UUID=5ECF-1A09  /boot/efi       vfat    umask=0077      0       1
-#boss added :  mount "windows M: drive" partition in /hdd with boss permission as per chown/chmod in notes
+#boss added : mount "windows M: drive" partition in /hdd with boss permission as per chown/chmod in notes
 UUID=42DED129DED115CF /hdd/m ntfs-3g defaults 0 0
 #boss added : mount "window M:/media" to "linux /jellyfin-media/m" with jellyfin permissions as per chown/chmod in notes
 /hdd/m/media    /jellyfin-media/m    none    bind
@@ -292,7 +292,7 @@ and use /jellyfin-media/m as the library directory
 >You should not need to do this on a Windows NTFS drive as it will have been mounted with full rwxrwxrwx so once jellyfin is past /jellyfin-media/m/ it should have full access to the directory that has been mounted using -bind.
 
 
-For example:-
+An example of an issue with the file permissions:-
 ```
 boss@boss-Lenovo-B570e-2:/jellyfin-media/local/video/another test$ ls -al
 total 9136
@@ -330,7 +330,7 @@ drwxr-x--- 3 boss jellyfin    4096 May  9 10:57  ..
 
 [https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer](https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer)
 
-https://help.ubuntu.com/community/Fstab
-https://askubuntu.com/questions/205841/how-do-i-mount-a-folder-from-another-partition
+[https://help.ubuntu.com/community/Fstab](https://help.ubuntu.com/community/Fstab)
+[https://askubuntu.com/questions/205841/how-do-i-mount-a-folder-from-another-partition](https://askubuntu.com/questions/205841/how-do-i-mount-a-folder-from-another-partition)
 
 

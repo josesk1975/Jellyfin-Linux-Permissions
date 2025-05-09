@@ -64,8 +64,7 @@ As user 'boss' you can add media to /jellyfin-media/local/video and /jellyfin-me
 > I am using the username "boss" as my primary username for managing the Jellyfin/Linux server.  
 
 
-Using the information provided from the primer link:  
-[https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer](https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer)
+Using the information provided from the ["primer link"](#read-the-primer) :  
 
 ```
 boss@boss-Lenovo-B570e-2:/$ sudo fdisk -l
@@ -94,11 +93,13 @@ Partition table entries are not in disk order.
 boss@boss-Lenovo-B570e-2:/$ blkid /dev/sda3
 /dev/sda3: LABEL="TIH0046700A" BLOCK_SIZE="512" UUID="42DED129DED115CF" TYPE="ntfs" PARTLABEL="Basic data partition" PARTUUID="e2c4442f-b77f-4a15-98ae-5742d2d926d8"
 ```
-<u>Note the below information from reading the primer link above:-</u>
+<u>Note the following:-</u>
 
 **PARTUUID="e2c4442f-b77f-4a15-98ae-5742d2d926d8"**
 
 **UUID="42DED129DED115CF"**
+
+Now check the file type (which is ntfs):-
 ```
 boss@boss-Lenovo-B570e-2:/$ lsblk -o PATH,FSTYPE,MOUNTPOINT /dev/sda3
 PATH      FSTYPE MOUNTPOINT
@@ -132,14 +133,15 @@ You could do (`sudo chown -R boss:boss /hdd`)
 ## Difference between a Disk mount and a Partition mount
 
 ### Disk Mount
-The example from the ["primer link"](#read-the-primer) uses the PARTUUID e.g. /etc/fstab entry from (https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer)
+The example from the ["primer link"](#read-the-primer) uses the PARTUUID, this should work for a DISK mount.  I have not tested this yet as I am on my test system.  I will update when I move to my server and mount physical disks.  At the moment I am mounting a partion, so the below (using PARTUUID) gave me an error.
 ```
-UUID=63c1787f-e1a3-b34a-ae05-eb66f240e17d /media/storage2 ext4 defaults 0 0
+UUID=e2c4442f-b77f-4a15-98ae-5742d2d926d8 /hdd/m ntfs-3g defaults 0 0
 ```
+
 ### Partition Mount
 
 > [!NOTE]
-> In the primer link, we are told to use the PARTUUID.  
+> In the ["primer link"](#read-the-primer) , we are told to use the PARTUUID.  
 > Because my system is a partition on the drive that is in on my laptop and not a separate drive we have to use the UUID and not the PARTUUID.  
 > If you use the PARTUUID you get an error when you try to mount it as a partition.  
 

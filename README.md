@@ -22,9 +22,9 @@ Hopefully this a definitive guide for Linux and Jellyfin Server permissions.
 Please read this link to understand the permission issues with Linux and Jellyfin.  
 [https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer](https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer)
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+
 ## Configuring Local Media
-------------------------------------------------------------------------------------------------------------------------------------------------
+
 DO NOT use your home directory ~/ (/home/boss/) for Jellyfin media files.
 
 If you have local media (e.g. single pc with single hard drive).  

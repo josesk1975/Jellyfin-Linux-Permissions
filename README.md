@@ -3,7 +3,6 @@ LINUX - Ultimate and Definitive Guide for Jellyfin Permissions --- hopefully....
 
 Hopefully this is a definitive guide for Linux and Jellyfin Server permissions.
 
-### READ THE PRIMER
 Don't forget to check out [Jellyfin-Inhibit-Sleep](https://github.com/Kwakers01/Jellyfin-Inhibit-Sleep).
 
 ## Configuring Jellyfin permissions : Local drive, mounted drives and mounted partitions
@@ -21,6 +20,7 @@ Don't forget to check out [Jellyfin-Inhibit-Sleep](https://github.com/Kwakers01/
 > Jellyfin runs as a service on Linux, the userID=jellyfin and groupID=jellyfin.  
 > I am using the username "boss" as my primary username for managing the Linux Server and media files e.g copying media to directories.
 
+### READ THE PRIMER
 Please read this link to fully understand the permission issues with Linux and Jellyfin.  
 [https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer](https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer)
 

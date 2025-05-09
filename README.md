@@ -3,6 +3,8 @@ LINUX - Ultimate and Definitive Guide for Jellyfin Permissions --- hopefully....
 
 Hopefully this a definitive guide for Linux and Jellyfin Server permissions.
 
+Don't forget to check out [Jellyfin-Inhibit-Sleep](https://github.com/Kwakers01/Jellyfin-Inhibit-Sleep).
+
 ## Configure Jellyfin permissions : local and mounted drives and partitions
 
 > [!IMPORTANT]  
@@ -331,6 +333,7 @@ drwxr-x--- 3 boss jellyfin    4096 May  9 10:57  ..
 [https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer](https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer)
 
 [https://help.ubuntu.com/community/Fstab](https://help.ubuntu.com/community/Fstab)
+
 [https://askubuntu.com/questions/205841/how-do-i-mount-a-folder-from-another-partition](https://askubuntu.com/questions/205841/how-do-i-mount-a-folder-from-another-partition)
 
 

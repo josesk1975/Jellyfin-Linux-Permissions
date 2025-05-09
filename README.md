@@ -332,3 +332,8 @@ drwxr-x--- 3 boss jellyfin    4096 May  9 10:57  ..
 [https://askubuntu.com/questions/205841/how-do-i-mount-a-folder-from-another-partition](https://askubuntu.com/questions/205841/how-do-i-mount-a-folder-from-another-partition)
 
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+If people want to add to this document, just let me know such as adding a usb drive (if you can provide the code) or an smb share (again provide the code).
+
+Thanks.

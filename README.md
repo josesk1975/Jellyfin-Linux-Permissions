@@ -129,10 +129,10 @@ PATH      FSTYPE MOUNTPOINT
 ```
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
+### Configuring the /etc/fstab for the drive/partition
+
 > [!NOTE]
 > In this example the user "boss" is my username (e.g. the person who will have access to add media to the server)
-
-**Configuring the /etc/fstab for the drive/partition**
 
 > [!NOTE]
 > A note about mounting Windows drives and partitions.  Linux will by default, mount a windows drive/partition with full rwxrwxrwx for all users.  

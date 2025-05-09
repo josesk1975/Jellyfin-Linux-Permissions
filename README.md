@@ -30,7 +30,8 @@ If you have local media (e.g. single pc with single hard drive) then the below c
 
 Let's configure a new directory just for Jellyfin media.
 
-You should change 'boss' in the examples below to your username.  
+> [!IMPORTANT]
+> You should change 'boss' in the examples below to your username.  
 
 ```
 cd /
@@ -131,8 +132,8 @@ PATH      FSTYPE MOUNTPOINT
 
 ### Configuring the /etc/fstab for the drive/partition
 
-> [!NOTE]
-> In this example the user "boss" is my username (e.g. the person who will have access to add media to the server)
+> [!IMPORTANT]
+> In this example the user "boss" is my username (e.g. the person who will have access to add media to the server) change this for your username.
 
 > [!NOTE]
 > A note about mounting Windows drives and partitions.
@@ -152,12 +153,13 @@ sudo chown boss:boss /hdd/m
 ```
 You could do (`sudo chown -R boss:boss /hdd`)
 
-Example of /etc/fstab from (https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer)
-e.g. UUID=63c1787f-e1a3-b34a-ae05-eb66f240e17d /media/storage2 ext4 defaults 0 0
-e.g. example for me is (which causes an error) UUID=e2c4442f-b77f-4a15-98ae-5742d2d926d8 /hdd/m ntfs-3g defaults 0 0 ... however see Note below:
+Example of /etc/fstab from (https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer)  
+e.g. UUID=63c1787f-e1a3-b34a-ae05-eb66f240e17d /media/storage2 ext4 defaults 0 0  
+e.g. example for me is (which causes an error) UUID=e2c4442f-b77f-4a15-98ae-5742d2d926d8 /hdd/m ntfs-3g defaults 0 0 ... however see Note below:  
 
 > [!NOTE]
-> Because my system is a partition on the drive that is in on my laptop and not a separate drive we have to use the UUID and not the PARTUUID. If you use the PARTUUID you get an error when you try to mount it as it is a partition.
+> Because my system is a partition on the drive that is in on my laptop and not a separate drive we have to use the UUID and not the PARTUUID.
+> If you use the PARTUUID you get an error when you try to mount it as a partition.
 
 So I am using for my /etc/fstab file
 ```
@@ -167,8 +169,24 @@ add (in my example) to the end of the file
 ```
 UUID=42DED129DED115CF /hdd/m ntfs-3g defaults 0 0
 ```
+Example of my /etc/fstab file with the added mount point.
+```
+ /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+# / was on /dev/sda7 during installation
+UUID=5396630c-6144-4cfd-a7af-2af44496efa8 /               ext4    errors=remount-ro 0       1
+# /boot/efi was on /dev/sda1 during installation
+UUID=5ECF-1A09  /boot/efi       vfat    umask=0077      0       1
+#boss added :  mount "windows M: drive" partition in /hdd with boss permission as per chown/chmod in notes
+UUID=42DED129DED115CF /hdd/m ntfs-3g defaults 0 0
+```
 
-You will need to unmount the above partition if it has auto mounted in a filemanger e.g. nemo or thunar.  
+If you wish to test the mount without rebooting, you will need to unmount the above partition if it has auto mounted in a filemanger e.g. nemo or thunar.  
 You can do this by right clicking the drive and clicking unmount.
 
 You can then mount the drive to the new mount point in /etc/fstab to check it works
@@ -182,8 +200,8 @@ you can unmount it again with
 ```
 sudo umount /hdd/m
 ```
-------------------------------------------------------------------------------------------------------------------------------------------------
-##Creating a Mount Point for Jellyfin##
+
+## Creating a Mount Point for Jellyfin
 
 We are now going to create a mount just for jellyfin and give access to just the 'media' directory on the Windows HDD.
 

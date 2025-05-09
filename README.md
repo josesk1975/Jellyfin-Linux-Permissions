@@ -3,6 +3,7 @@ LINUX - Ultimate and Definitive Guide for Jellyfin Permissions --- hopefully....
 
 Hopefully this is a definitive guide for Linux and Jellyfin Server permissions.
 
+### READ THE PRIMER
 Don't forget to check out [Jellyfin-Inhibit-Sleep](https://github.com/Kwakers01/Jellyfin-Inhibit-Sleep).
 
 ## Configuring Jellyfin permissions : Local drive, mounted drives and mounted partitions
@@ -105,7 +106,7 @@ PATH      FSTYPE MOUNTPOINT
 ```
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
-### Configuring the /etc/fstab for the drive/partition
+### Configuring the /etc/fstab to mount a drive/partition
 
 > [!IMPORTANT]
 > In this example the user "boss" is my username (e.g. the person who will have access to add media to the server) change this for your username.
@@ -128,14 +129,27 @@ sudo chown boss:boss /hdd/m
 ```
 You could do (`sudo chown -R boss:boss /hdd`)
 
-Example of /etc/fstab entry from (https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer)  
-e.g. UUID=63c1787f-e1a3-b34a-ae05-eb66f240e17d /media/storage2 ext4 defaults 0 0  
-e.g. example for me is (which causes an error) UUID=e2c4442f-b77f-4a15-98ae-5742d2d926d8 /hdd/m ntfs-3g defaults 0 0 ... however see Note below:  
+## Difference between a Disk mount and a Partition mount
+
+### Disk Mount
+The example from the ["primer link"](#read-the-primer) uses the PARTUUID e.g. /etc/fstab entry from (https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer)
+```
+UUID=63c1787f-e1a3-b34a-ae05-eb66f240e17d /media/storage2 ext4 defaults 0 0
+```
+### Partition Mount
 
 > [!NOTE]
 > In the primer link, we are told to use the PARTUUID.  
 > Because my system is a partition on the drive that is in on my laptop and not a separate drive we have to use the UUID and not the PARTUUID.  
 > If you use the PARTUUID you get an error when you try to mount it as a partition.  
+
+If I used
+```
+UUID=e2c4442f-b77f-4a15-98ae-5742d2d926d8 /hdd/m ntfs-3g defaults 0 0
+```
+I got an error.
+
+Instead I have had to use the UUID to mount a partion.
 
 So I am using for my /etc/fstab file
 ```

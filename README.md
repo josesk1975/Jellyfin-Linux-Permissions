@@ -5,7 +5,6 @@ Hopefully this a definitive guide for Linux and Jellyfin Server permissions.
 
 ## Configure Jellyfin permissions : local and mounted drives and partitions
 
-
 > [!IMPORTANT]  
 > Jellyfin runs as a "SERVICE" on Linux.  
 > It does not run as a normal user.  
@@ -27,7 +26,9 @@ Please read this link to understand the permission issues with Linux and Jellyfi
 
 DO NOT use your home directory ~/ (/home/boss/) for Jellyfin media files.
 
-If you have local media (e.g. single pc with single hard drive).  
+If you have local media (e.g. single pc with single hard drive) then the below configuration is the best way to configure your jellyfin media files.
+
+Let's configure a new directory just for Jellyfin media.
 
 You should change 'boss' in the examples below to your username.  
 
@@ -41,8 +42,8 @@ sudo chmod -R 750 /jellyfin-media
 put your video files in /jellyfin-media/local/video  
 put your music files in /jellyfin-media/local/music  
 
-You should now be able to login to jellyfin http://127.0.0.1:8096  
-and use /jellyfin-media/local as the library directory.  
+That's it....  
+You should now be able to log into your jellyfin server http://127.0.0.1:8096 and use /jellyfin-media/local as the library directory.  
 
 As user 'boss' you can add media to /jellyfin-media/local/video and /jellyfin-media/local/music.
 
@@ -50,7 +51,7 @@ As user 'boss' you can add media to /jellyfin-media/local/video and /jellyfin-me
 
 For example:-
 ```
-boss@boss-Lenovo-B570e-2:/jellyfin-media/local/video/another test$ ls -al
+boss@boss-Lenovo-B570e-2:/jellyfin-media/local/video/testvideo$ ls -al
 total 9136
 drwxrwxr-x 2 boss boss        4096 May  9 11:11  .
 drwxr-x--- 3 boss jellyfin    4096 May  9 10:57  ..
@@ -65,7 +66,7 @@ chmod +r ./record-open-C.mp4
 ```
 This allows any use to read the file.
 ```
-boss@boss-Lenovo-B570e-2:/jellyfin-media/local/video/another test$ ls -al
+boss@boss-Lenovo-B570e-2:/jellyfin-media/local/video/testvideo$ ls -al
 total 9136
 drwxrwxr-x 2 boss boss        4096 May  9 11:11  .
 drwxr-x--- 3 boss jellyfin    4096 May  9 10:57  ..
@@ -75,9 +76,8 @@ drwxr-x--- 3 boss jellyfin    4096 May  9 10:57  ..
 "record-open-C.mp4" will now play on jellyfin.
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
-##Media on Mounted Drives and Partition's##
-------------------------------------------------------------------------------------------------------------------------------------------------
+## Media on Mounted Drives and Partition's
+
 > [!NOTE]  
 > The below example is a test system (one hard disk drive with 7 partitions).  
 > One Windows 10 partition, one Linux Mint 22 Cinnamon partition -sda6 and one Linux Mint 22.1 xfce partition -sda7.  
@@ -86,7 +86,7 @@ drwxr-x--- 3 boss jellyfin    4096 May  9 10:57  ..
 > Jellyfin runs as a service on Linux and the userID and groupID are called jellyfin.  
 > I am using the username "boss" as my primary username for managing the Jellyfin/Linux server.  
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+
 Using the information provided from the primer link:  
 [https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer](https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer)
 
@@ -132,10 +132,7 @@ PATH      FSTYPE MOUNTPOINT
 > [!NOTE]
 > In this example the user "boss" is my username (e.g. the person who will have access to add media to the server)
 
-I am testing this as I have a dual boot system - Window 10 and Linux Mint 22.1 xfce.
-
 **Configuring the /etc/fstab for the drive/partition**
-
 
 > [!NOTE]
 > A note about mounting Windows drives and partitions.  Linux will by default, mount a windows drive/partition with full rwxrwxrwx for all users.  

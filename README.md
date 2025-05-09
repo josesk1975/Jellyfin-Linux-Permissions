@@ -1,7 +1,7 @@
 # Jellyfin-Linux-Permissions
 LINUX - Ultimate and Definitive Guide for Jellyfin Permissions --- hopefully....
 
-Hopefully this a definitive guide for Linux and Jellyfin Server permissions.
+Hopefully this is a definitive guide for Linux and Jellyfin Server permissions.
 
 Don't forget to check out [Jellyfin-Inhibit-Sleep](https://github.com/Kwakers01/Jellyfin-Inhibit-Sleep).
 

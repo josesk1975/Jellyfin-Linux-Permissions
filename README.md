@@ -248,7 +248,7 @@ When you are happy, you can make the change permanent e.g. after reboot by:
 ```
 sudo nano /etc/fstab
 ```
-add to the end of the file
+add to the end of the file (this is my example)
 ```
 #boss added : mount "window M:/media" to "linux /jellyfin-media/m" with jellyfin permissions as per chown/chmod in notes
 /hdd/m/media    /jellyfin-media/m    none    bind

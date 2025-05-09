@@ -153,6 +153,8 @@ I got an error.
 
 Instead I have had to use the UUID to mount a partion.
 
+### Updating fstab (make changes permanent)
+
 So I am using for my /etc/fstab file
 ```
 sudo nano /etc/fstab
@@ -244,7 +246,7 @@ sudo umount /jellyfin-media/m
 
 When you are happy, you can make the change permanent e.g. after reboot by:
 
-### Updating fstab
+### Updating fstab (make changes permanent)
 ```
 sudo nano /etc/fstab
 ```

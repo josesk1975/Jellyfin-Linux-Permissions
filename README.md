@@ -5,7 +5,7 @@ Hopefully this is a definitive guide for Linux and Jellyfin Server permissions.
 
 Don't forget to check out [Jellyfin-Inhibit-Sleep](https://github.com/Kwakers01/Jellyfin-Inhibit-Sleep).
 
-## Configure Jellyfin permissions : local and mounted drives and partitions
+## Configuring Jellyfin permissions : Local drive, mounted drives and mounted partitions
 
 > [!IMPORTANT]  
 > Jellyfin runs as a "SERVICE" on Linux.  
@@ -20,15 +20,15 @@ Don't forget to check out [Jellyfin-Inhibit-Sleep](https://github.com/Kwakers01/
 > Jellyfin runs as a service on Linux, the userID=jellyfin and groupID=jellyfin.  
 > I am using the username "boss" as my primary username for managing the Linux Server and media files e.g copying media to directories.
 
-Please read this link to understand the permission issues with Linux and Jellyfin.  
+Please read this link to fully understand the permission issues with Linux and Jellyfin.  
 [https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer](https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer)
 
 
-## Configuring Local Media
+## Configuring a Local Drive
 
 DO NOT use your home directory ~/ (/home/boss/) for Jellyfin media files.
 
-If you have local media (e.g. single pc with single hard drive) then the below configuration is the best way to configure your jellyfin media files.
+If you have a local drive (e.g. single pc with single hard drive) then the below configuration is the best way to configure your jellyfin media files.
 
 Let's configure a new directory just for Jellyfin media.
 
@@ -50,7 +50,7 @@ You should now be able to log into your jellyfin server http://127.0.0.1:8096 an
 
 As user 'boss' you can add media to /jellyfin-media/local/video and /jellyfin-media/local/music.
 
-**If you cannot see your media in the jellyfin library or the media will not play, you need to check the file permissions of the directories and media files. [Example of file permission issues](#example-of-file-permission-issues)**
+**If you cannot see your media in the jellyfin library or the media will not play, you need to check the file permissions of the directories and media files, see [Example of file permission issues](#example-of-file-permission-issues)**
 
 ## Media on Mounted Drives and Partition's
 
@@ -93,7 +93,7 @@ Partition table entries are not in disk order.
 boss@boss-Lenovo-B570e-2:/$ blkid /dev/sda3
 /dev/sda3: LABEL="TIH0046700A" BLOCK_SIZE="512" UUID="42DED129DED115CF" TYPE="ntfs" PARTLABEL="Basic data partition" PARTUUID="e2c4442f-b77f-4a15-98ae-5742d2d926d8"
 ```
-<u>Note the below:-</u>
+<u>Note the below information from reading the primer link above:-</u>
 
 **PARTUUID="e2c4442f-b77f-4a15-98ae-5742d2d926d8"**
 
@@ -128,20 +128,22 @@ sudo chown boss:boss /hdd/m
 ```
 You could do (`sudo chown -R boss:boss /hdd`)
 
-Example of /etc/fstab from (https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer)  
+Example of /etc/fstab entry from (https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer)  
 e.g. UUID=63c1787f-e1a3-b34a-ae05-eb66f240e17d /media/storage2 ext4 defaults 0 0  
 e.g. example for me is (which causes an error) UUID=e2c4442f-b77f-4a15-98ae-5742d2d926d8 /hdd/m ntfs-3g defaults 0 0 ... however see Note below:  
 
 > [!NOTE]
-> Because my system is a partition on the drive that is in on my laptop and not a separate drive we have to use the UUID and not the PARTUUID.
-> If you use the PARTUUID you get an error when you try to mount it as a partition.
+> In the primer link, we are told to use the PARTUUID.  
+> Because my system is a partition on the drive that is in on my laptop and not a separate drive we have to use the UUID and not the PARTUUID.  
+> If you use the PARTUUID you get an error when you try to mount it as a partition.  
 
 So I am using for my /etc/fstab file
 ```
 sudo nano /etc/fstab
 ```
-add (in my example) to the end of the file
+add your code to the end of the file (this is my example)
 ```
+#boss added :  mount "windows M: drive" partition in /hdd with boss permission as per chown/chmod in notes
 UUID=42DED129DED115CF /hdd/m ntfs-3g defaults 0 0
 ```
 Example of my /etc/fstab file with the added mount point.

@@ -135,7 +135,8 @@ PATH      FSTYPE MOUNTPOINT
 > In this example the user "boss" is my username (e.g. the person who will have access to add media to the server)
 
 > [!NOTE]
-> A note about mounting Windows drives and partitions.  Linux will by default, mount a windows drive/partition with full rwxrwxrwx for all users.  
+> A note about mounting Windows drives and partitions.
+> Linux will by default, mount a windows drive/partition with full rwxrwxrwx for all users.  
 > To control the Linux access to the drive/partition you need to mount it to a directory that you have created and set your required permissions on.  
 
 Create a directory for the partition to be mounted e.g. here I have used, hdd (hard disk drive) and m (In Windows 10, drive letter M: = my media server partition)

